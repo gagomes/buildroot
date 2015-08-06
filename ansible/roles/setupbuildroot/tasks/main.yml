@@ -1,0 +1,5 @@
+---
+- name: clone buildroot
+  git: repo=http://github.com/xenserver/buildroot dest=/usr/src/buildroot
+
+

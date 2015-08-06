@@ -1,0 +1,12 @@
+---
+- hosts: xenhosts
+  remote_user: root
+  sudo: yes
+  roles:
+  - createxenvm
+
+- hosts: centos
+  remote_user: xenbuilder
+  roles:
+  - setupbuildroot
+

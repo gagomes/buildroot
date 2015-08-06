@@ -1,0 +1,44 @@
+---
+
+- name: test for presence of iso:{{ distribution_iso }} as part of a host ISO-SR
+  command: test \! -z "$(xe vdi-list name-label={{ distribution_iso }})"
+
+- name: copy CentOS kickstart file
+  copy: src=centos6.ks dest=/opt/xensource/www/centos6.ks
+  when: distribution == "CentOS"
+
+- name: cleanup
+  command: xe vm-uninstall vm=buildroot_centos6 force=true --multiple
+  ignore_errors: yes
+  when: hacking == True
+
+- name: Create VM
+  command: xe vm-install template=CentOS\ 6\ \(64-bit\) new-name-label={{ vm_name_label }}
+  when: distribution == "CentOS"
+
+- name: Attach ISO {{ distribution_iso }}
+  command: xe vm-cd-add cd-name={{ distribution_iso }} vm={{ vm_name_label }} device=xvdd
+
+- name: Set VBD to bootable
+  command: bash -c 'xe vbd-param-set uuid=$(xe vbd-list vm-name-label={{ vm_name_label }} type=CD --minimal) bootable=true'
+
+- name: set kickstart arguments
+  command: bash -c "xe vm-param-set other-config:install-repository=cdrom PV-args='{{ vm_kernel_cmd }}' uuid=$(xe vm-list name-label={{ vm_name_label }} --minimal)"
+
+- name: create VIF
+  command: bash -c "xe vif-create mac={{ vm_mac }} device=0 network-uuid=$(xe network-list name-label=\"{{vm_network}}\" --minimal) vm-uuid=$(xe vm-list name-label={{ vm_name_label }} --minimal)"
+
+- name: start VM
+  command: xe vm-start name-label={{ vm_name_label }}
+
+- name: snoop the vm IP address
+  command: bash -c "while test -z $(/sbin/arp -n |grep {{ vm_mac }} |awk '{print $1}'); do sleep 5; done"
+
+- name: get ip
+  command: bash -c "/sbin/arp -n |grep {{ vm_mac }} |awk '{print $1}'"
+  register: vmip
+
+- debug: var=vmip
+- name: wait for the apache to be available
+  wait_for: host={{ vmip.stdout }}  port=80 delay=300 timeout=3600
+
