@@ -45,5 +45,5 @@
 
 - debug: var=vmip
 - name: wait for the apache to be available
-  wait_for: host={{ vmip.stdout }}  port=80 delay=300 timeout=3600
+  wait_for: host={{ vmip.stdout }}  port=80 delay=100 timeout=3600
 
