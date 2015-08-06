@@ -1,4 +1,9 @@
 ---
+- name: remove host entry from ~/.ssh/known_hosts
+  connection: local
+  command: ssh-keygen -R {{ inventory_hostname }}
+  ignore_errors: true
+
 - name: clone buildroot
   git: repo=http://github.com/xenserver/buildroot dest=/usr/src/buildroot
 

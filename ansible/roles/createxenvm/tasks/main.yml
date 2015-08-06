@@ -3,8 +3,13 @@
 - name: test for presence of iso:{{ distribution_iso }} as part of a host ISO-SR
   command: test \! -z "$(xe vdi-list name-label={{ distribution_iso }})"
 
+- name: load key into variable ready for substituion
+  connection: local
+  command: cat {{ public_key }}
+  register: key
+
 - name: copy CentOS kickstart file
-  copy: src=centos6.ks dest=/opt/xensource/www/centos6.ks
+  template: src=centos6.ks dest=/opt/xensource/www/centos6.ks
   when: distribution == "CentOS"
 
 - name: cleanup
