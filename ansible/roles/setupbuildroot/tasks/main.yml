@@ -5,6 +5,4 @@
   ignore_errors: true
 
 - name: clone buildroot
-  git: repo=http://github.com/xenserver/buildroot dest=/usr/src/buildroot
-
-
+  git: repo=https://github.com/xenserver/buildroot dest=/usr/src/xenbuilder/buildroot
