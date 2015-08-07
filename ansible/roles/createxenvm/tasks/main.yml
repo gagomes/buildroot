@@ -21,6 +21,13 @@
   command: xe vm-install template=CentOS\ 6\ \(64-bit\) new-name-label={{ vm_name_label }}
   when: distribution == "CentOS"
 
+- name: Set disk size to {{ vm_disk_size }}
+  command: bash -c 'xe vdi-resize uuid=$(xe vbd-list vm-name-label=buildroot_centos6 params=vdi-uuid type=Disk --minimal) disk-size={{ vm_disk_size }}'
+
+- name: Increase VM memory to {{ vm_memory_size }}
+  command: bash -c 'xe vm-param-set memory-static-max={{ vm_memory_size }} memory-dynamic-max={{ vm_memory_size }} memory-dynamic-min={{ vm_memory_size }} uuid=$(xe vm-list name-label=buildroot_centos6 --minimal)'
+
+
 - name: Attach ISO {{ distribution_iso }}
   command: xe vm-cd-add cd-name={{ distribution_iso }} vm={{ vm_name_label }} device=xvdd
 

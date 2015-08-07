@@ -5,6 +5,8 @@ vm_kernel_cmd: graphical utf8  ks=http://{{ inventory_hostname }}/centos6.ks
 vm_mac: cc:11:22:33:44:55
 vm_ip: 192.168.1.34
 vm_network: Pool-wide network associated with eth0
+vm_disk_size: 50GiB
+vm_memory_size: 8GiB
 password: xenroot
 hacking: True
 public_key: ~goncalog/.ssh/id_dsa.pub
