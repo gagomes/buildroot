@@ -71,6 +71,9 @@ UseDNS no
 Subsystem       sftp    /usr/libexec/openssh/sftp-server
 EOF
 
+# enable sudo without asking for password for users of the group wheel
+sed -i -e 's/# \(%wheel.*NOPASSWD.*\)/\1/g'  /etc/sudoers
+
 %end
 
 reboot
