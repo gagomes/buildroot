@@ -4,10 +4,6 @@
   command: ssh-keygen -R {{ inventory_hostname }}
   ignore_errors: true
 
-- name: Disable SELinux enforcement
-  sudo: yes
-  selinux: state=disabled
-
 - name: clone buildroot
   git: repo=https://github.com/xenserver/buildroot dest=/usr/src/xenbuilder/buildroot
 
@@ -24,6 +20,10 @@
     - mock
     - redhat-lsb-core
     - screen
+
+- name: Disable SELinux enforcement
+  sudo: yes
+  command: setenforce 0
 
 - name: add xenbuilder to group mock
   user: name=xenbuilder groups=mock,wheel
