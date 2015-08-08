@@ -1,6 +1,7 @@
 distribution: CentOS
 distribution_iso: CentOS-6.6-x86_64-bin-DVD1.iso
 vm_name_label: buildroot_centos6
+vm_sr_name: local2
 vm_kernel_cmd: graphical utf8  ks=http://{{ inventory_hostname }}/centos6.ks
 vm_mac: cc:11:22:33:44:55
 vm_ip: 192.168.1.34

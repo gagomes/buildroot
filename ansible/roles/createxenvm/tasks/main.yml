@@ -18,7 +18,7 @@
   when: hacking == True
 
 - name: Create VM
-  command: xe vm-install template=CentOS\ 6\ \(64-bit\) new-name-label={{ vm_name_label }}
+  command: xe vm-install sr-name-label={{ vm_sr_name }} template=CentOS\ 6\ \(64-bit\) new-name-label={{ vm_name_label }}
   when: distribution == "CentOS"
 
 - name: Set disk size to {{ vm_disk_size }}
