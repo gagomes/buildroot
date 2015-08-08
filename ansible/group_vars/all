@@ -11,4 +11,4 @@ vm_vcpu_count: 2
 password: xenroot
 hacking: True
 public_key: ~goncalog/.ssh/id_dsa.pub
-
+build_output_log: ~xenbuilder/ansible-build.log

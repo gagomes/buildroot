@@ -1,0 +1,17 @@
+---
+
+- name: configure
+  command: chdir=/usr/src/xenbuilder/buildroot ./configure
+
+- name: start compilation
+  command: chdir=/usr/src/xenbuilder/buildroot screen script -a -c '/usr/bin/make -j 2 FETCH_EXTRA_ARGS="--retries 5"' -f {{ build_output_log }}
+  register: bug
+  ignore_errors: true
+
+- name: debug
+  debug: var=bug
+  
+
+- name: Install the build output
+  sudo: yes
+  command: chdir=/usr/src/xenbuilder/buildroot screen script -a -c '/usr/bin/make install -j 2' -f {{ build_output_log }}
