@@ -1,5 +1,5 @@
 ---
-- hosts: xenhosts
+- hosts: xenhost
   remote_user: root
   sudo: yes
   roles:
@@ -11,3 +11,11 @@
   roles:
   - setupbuildroot
 
+- hosts: centos
+  remote_user: xenbuilder
+  gather_facts: yes
+  sudo: no
+  roles:
+  - build
+  tags:
+  - buildonly
