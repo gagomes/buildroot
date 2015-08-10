@@ -13,9 +13,19 @@
 
 - hosts: centos
   remote_user: xenbuilder
-  gather_facts: yes
+  gather_facts: no
   sudo: no
   roles:
   - build
   tags:
   - buildonly
+
+- hosts: xenhost
+  remote_user: root
+  gather_facts: no
+  sudo: no
+  roles:
+    - fixup
+  tags:
+    - fixup
+

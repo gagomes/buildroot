@@ -10,8 +10,16 @@
 
 - name: debug
   debug: var=bug
-  
 
 - name: Install the build output
   sudo: yes
   command: chdir=/usr/src/xenbuilder/buildroot screen script -a -c '/usr/bin/make install -j 2' -f {{ build_output_log }}
+
+- name: xenserver-install-wizard
+  sudo: yes
+  command: xenserver-install-wizard --yes-to-all
+  ignore_errors: yes
+
+- name: shutdown buildroot guest
+  sudo: yes
+  command: poweroff

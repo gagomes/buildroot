@@ -1,0 +1,10 @@
+---
+- name: Wait until buildroot VM is effectively halted
+  command: xe event-wait class=vm name-label=buildroot_centos6 power-state=halted
+
+- name: Convert buildroot VM to HVM
+  command: /opt/xensource/bin/pv2hvm --name=buildroot_centos6
+
+- name: Start buildroot VM
+  command: xe vm-start name-label=buildroot_centos6
+
