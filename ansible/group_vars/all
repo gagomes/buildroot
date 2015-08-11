@@ -1,15 +1,32 @@
+# For now only CentOS is supported, but this should have Debian/Ubuntu as alternative valid values
 distribution: CentOS
+# Change to reflect the name of your CentOS ISO
 distribution_iso: CentOS-6.6-x86_64-bin-DVD1.iso
+# name for your VM
 vm_name_label: buildroot_centos6
+# name of the Storage Resource used to store the VM
 vm_sr_name: local2
 vm_kernel_cmd: graphical utf8  ks=http://{{ inventory_hostname }}/centos6.ks
+
+# See NOTES section in the README
 vm_mac: cc:11:22:33:44:55
 vm_ip: 192.168.1.34
+
+# Update to reflect your general / outside facing network
 vm_network: Pool-wide network associated with eth0
+# This is way more than is needed, adjust if short on space (usage is around 2.7g)
 vm_disk_size: 50GiB
+# Adjust as necessary
 vm_memory_size: 8GiB
+# Adjust as necessary
 vm_vcpu_count: 2
 password: xenroot
+# all hell will break lose (or maybe not)
+# IF true, every time you hit 'make' it will remove the previous VM
+# and create a new one.
 hacking: True
+# Point to some key your ssh-agent knows about
 public_key: ~goncalog/.ssh/id_dsa.pub
+
+# Output of build commands on the CentOS VM  logged here.
 build_output_log: ~xenbuilder/ansible-build.log
